@@ -1,0 +1,27 @@
+includes:
+    - ./vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - app
+        - config
+        - database
+        - routes
+    excludePaths:
+        - bootstrap/cache
+        - storage
+        - vendor
+    ignoreErrors:
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::.*#'
+        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::.*#'
+        - '#Access to an undefined property.*#'
+        - '#Call to an undefined method.*#'
+        - '#PHPDoc type.*is not covariant.*#'
+        - '#Method.*should return.*but returns.*#'
+        - '#Parameter.*expects.*given.*#'
+        - '#Anonymous function has an unused use.*#'
+        - '#Strict comparison using.*will always evaluate to.*#'
+        - '#Relation.*is not found.*#'
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
