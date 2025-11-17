@@ -21,31 +21,37 @@ class DemoSeeder extends Seeder
     {
         $this->command->info('Creating demo users...');
 
-        // Create admin user
-        $admin = User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@discipleship.local',
-            'role' => User::ROLE_ADMIN,
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-        ]);
+        // Get or create admin user (may already exist from migration)
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@discipleship.local'],
+            [
+                'name' => 'Admin User',
+                'role' => User::ROLE_ADMIN,
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+            ]
+        );
 
-        // Create pastor users
-        $pastor1 = User::create([
-            'name' => 'Pastor John Smith',
-            'email' => 'pastor@discipleship.local',
-            'role' => User::ROLE_PASTOR,
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-        ]);
+        // Create pastor users (use firstOrCreate to avoid duplicates)
+        $pastor1 = User::firstOrCreate(
+            ['email' => 'pastor@discipleship.local'],
+            [
+                'name' => 'Pastor John Smith',
+                'role' => User::ROLE_PASTOR,
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+            ]
+        );
 
-        $pastor2 = User::create([
-            'name' => 'Pastor Mary Johnson',
-            'email' => 'pastor2@discipleship.local',
-            'role' => User::ROLE_PASTOR,
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-        ]);
+        $pastor2 = User::firstOrCreate(
+            ['email' => 'pastor2@discipleship.local'],
+            [
+                'name' => 'Pastor Mary Johnson',
+                'role' => User::ROLE_PASTOR,
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+            ]
+        );
 
 
         $this->command->info('Creating demo members...');
