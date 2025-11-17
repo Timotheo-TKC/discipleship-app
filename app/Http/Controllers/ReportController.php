@@ -23,7 +23,7 @@ class ReportController extends Controller
     {
         $startDate = $request->filled('start_date')
             ? \Carbon\Carbon::parse($request->get('start_date'))
-            : \Carbon\Carbon::now()->subMonths(6);
+            : \Carbon\Carbon::now()->subMonths(config('analytics.attendance_trends_months', 6));
 
         $endDate = $request->filled('end_date')
             ? \Carbon\Carbon::parse($request->get('end_date'))

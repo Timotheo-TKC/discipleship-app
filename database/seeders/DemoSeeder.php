@@ -21,35 +21,37 @@ class DemoSeeder extends Seeder
     {
         $this->command->info('Creating demo users...');
 
+        $defaultPassword = env('DEFAULT_SHARED_PASSWORD', 'password');
+        
         // Get or create admin user (may already exist from migration)
         $admin = User::firstOrCreate(
-            ['email' => 'admin@discipleship.local'],
+            ['email' => env('DEFAULT_ADMIN_EMAIL', 'admin@discipleship.local')],
             [
-                'name' => 'Admin User',
+                'name' => env('DEFAULT_ADMIN_NAME', 'Admin User'),
                 'role' => User::ROLE_ADMIN,
                 'email_verified_at' => now(),
-                'password' => Hash::make('password'),
+                'password' => Hash::make($defaultPassword),
             ]
         );
 
         // Create pastor users (use firstOrCreate to avoid duplicates)
         $pastor1 = User::firstOrCreate(
-            ['email' => 'pastor@discipleship.local'],
+            ['email' => env('DEFAULT_PASTOR_EMAIL', 'pastor@discipleship.local')],
             [
-                'name' => 'Pastor John Smith',
+                'name' => env('DEFAULT_PASTOR_NAME', 'Pastor John Smith'),
                 'role' => User::ROLE_PASTOR,
                 'email_verified_at' => now(),
-                'password' => Hash::make('password'),
+                'password' => Hash::make($defaultPassword),
             ]
         );
 
         $pastor2 = User::firstOrCreate(
-            ['email' => 'pastor2@discipleship.local'],
+            ['email' => env('DEFAULT_PASTOR2_EMAIL', 'pastor2@discipleship.local')],
             [
-                'name' => 'Pastor Mary Johnson',
+                'name' => env('DEFAULT_PASTOR2_NAME', 'Pastor Mary Johnson'),
                 'role' => User::ROLE_PASTOR,
                 'email_verified_at' => now(),
-                'password' => Hash::make('password'),
+                'password' => Hash::make($defaultPassword),
             ]
         );
 

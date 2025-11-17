@@ -52,9 +52,10 @@ class DashboardController extends Controller
         $totalSessions = ClassSession::count();
         $totalAttendance = Attendance::count();
 
-        // Recent activity (last 30 days)
-        $recentMembers = Member::where('created_at', '>=', Carbon::now()->subDays(30))->count();
-        $recentSessions = ClassSession::where('session_date', '>=', Carbon::now()->subDays(30))->count();
+        // Recent activity (configurable days)
+        $recentActivityDays = config('analytics.recent_activity_days', 30);
+        $recentMembers = Member::where('created_at', '>=', Carbon::now()->subDays($recentActivityDays))->count();
+        $recentSessions = ClassSession::where('session_date', '>=', Carbon::now()->subDays($recentActivityDays))->count();
 
         // Today's sessions
         $todaySessions = ClassSession::where('session_date', Carbon::today())->count();
@@ -68,8 +69,9 @@ class DashboardController extends Controller
         // Attendance rate calculation
         $attendanceRate = $this->calculateOverallAttendanceRate();
 
-        // Recent messages
-        $recentMessages = Message::where('created_at', '>=', Carbon::now()->subDays(7))
+        // Recent messages (configurable days)
+        $recentMessagesDays = config('analytics.recent_messages_days', 7);
+        $recentMessages = Message::where('created_at', '>=', Carbon::now()->subDays($recentMessagesDays))
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
@@ -216,7 +218,7 @@ class DashboardController extends Controller
             'class_performance' => $this->reportService->getClassPerformance(),
             'mentorship_success' => $this->reportService->getMentorshipSuccess(),
             'attendance_trends' => $this->reportService->getAttendanceTrends(
-                Carbon::now()->subMonths(3),
+                Carbon::now()->subMonths(config('analytics.dashboard_attendance_trends_months', 3)),
                 Carbon::now()
             ),
         ];

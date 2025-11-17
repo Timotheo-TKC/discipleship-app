@@ -165,12 +165,14 @@ class UserController extends Controller
      */
     public function resetPassword(User $user): RedirectResponse
     {
+        $defaultPassword = env('DEFAULT_SHARED_PASSWORD', 'password');
+        
         $user->update([
-            'password' => bcrypt('password'), // Default password
+            'password' => bcrypt($defaultPassword),
         ]);
 
         return redirect()
             ->back()
-            ->with('success', 'User password reset to default (password).');
+            ->with('success', 'User password reset to default password.');
     }
 }

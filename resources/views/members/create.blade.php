@@ -50,7 +50,7 @@
                             </label>
                             <input type="email" name="email" id="email" value="{{ old('email') }}" required
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Required for member login. Default password will be set to "password".</p>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Required for member login. Default password will be set from configuration.</p>
                             @error('email')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror

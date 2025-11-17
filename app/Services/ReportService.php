@@ -17,7 +17,7 @@ class ReportService
      */
     public function getAttendanceTrends(?Carbon $startDate = null, ?Carbon $endDate = null): array
     {
-        $startDate = $startDate ?? Carbon::now()->subMonths(6);
+        $startDate = $startDate ?? Carbon::now()->subMonths(config('analytics.attendance_trends_months', 6));
         $endDate = $endDate ?? Carbon::now();
 
         $trends = Attendance::whereHas('classSession', function ($query) use ($startDate, $endDate) {
@@ -145,25 +145,31 @@ class ReportService
     {
         $totalMentorships = Mentorship::count();
         $activeMentorships = Mentorship::where('status', 'active')->count();
-        $completedMentorships = Mentorship::where('status', 'completed')->count();
+        $completedMentorshipsCount = Mentorship::where('status', 'completed')->count();
         $pausedMentorships = Mentorship::where('status', 'paused')->count();
 
         $successRate = $totalMentorships > 0
-            ? round(($completedMentorships / $totalMentorships) * 100, 2)
+            ? round(($completedMentorshipsCount / $totalMentorships) * 100, 2)
             : 0;
 
-        $averageDurationResult = Mentorship::whereNotNull('end_date')
-            ->selectRaw('AVG(DATEDIFF(end_date, start_date)) as avg_days')
-            ->first();
+        // Use database-agnostic date difference calculation
+        $averageDuration = 0;
+        $completedMentorshipsWithDates = Mentorship::whereNotNull('end_date')
+            ->whereNotNull('start_date')
+            ->get();
         
-        $averageDuration = $averageDurationResult && $averageDurationResult->avg_days
-            ? (float) $averageDurationResult->avg_days
-            : 0;
+        if ($completedMentorshipsWithDates->count() > 0) {
+            $totalDays = $completedMentorshipsWithDates->sum(function ($mentorship) {
+                return \Carbon\Carbon::parse($mentorship->end_date)
+                    ->diffInDays(\Carbon\Carbon::parse($mentorship->start_date));
+            });
+            $averageDuration = $totalDays / $completedMentorshipsWithDates->count();
+        }
 
         return [
             'total_mentorships' => $totalMentorships,
             'active_mentorships' => $activeMentorships,
-            'completed_mentorships' => $completedMentorships,
+            'completed_mentorships' => $completedMentorshipsCount,
             'paused_mentorships' => $pausedMentorships,
             'success_rate' => $successRate,
             'average_duration_days' => round($averageDuration, 2),
