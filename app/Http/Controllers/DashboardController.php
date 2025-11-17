@@ -10,11 +10,19 @@ use App\Models\Mentorship;
 use App\Models\Message;
 use App\Models\User;
 use App\Services\BibleVerseService;
+use App\Services\ReportService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    protected ReportService $reportService;
+
+    public function __construct(ReportService $reportService)
+    {
+        $this->reportService = $reportService;
+    }
+
     /**
      * Display the dashboard
      */
@@ -24,6 +32,9 @@ class DashboardController extends Controller
         // Different data will be shown based on user role
 
         $data = $this->getDashboardData();
+        
+        // Add analytics data
+        $data['analytics'] = $this->getAnalyticsData();
 
         return view('dashboard', $data);
     }
@@ -193,5 +204,21 @@ class DashboardController extends Controller
                 'daily_verse' => $data['dailyVerse'] ?? null,
             ],
         ]);
+    }
+
+    /**
+     * Get analytics data for dashboard
+     */
+    private function getAnalyticsData(): array
+    {
+        return [
+            'member_engagement' => $this->reportService->getMemberEngagement(),
+            'class_performance' => $this->reportService->getClassPerformance(),
+            'mentorship_success' => $this->reportService->getMentorshipSuccess(),
+            'attendance_trends' => $this->reportService->getAttendanceTrends(
+                Carbon::now()->subMonths(3),
+                Carbon::now()
+            ),
+        ];
     }
 }

@@ -399,6 +399,169 @@
                 </div>
             </div>
 
+            <!-- Analytics Dashboard -->
+            @if(isset($analytics))
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                            Analytics Dashboard
+                        </h3>
+                        <a href="{{ route('reports.index') }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
+                            View Full Reports →
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Member Engagement -->
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                            <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Member Engagement</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Total Members</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $analytics['member_engagement']['total_members'] ?? 0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">With Attendance</span>
+                                    <span class="text-sm font-semibold text-green-600">{{ $analytics['member_engagement']['members_with_attendance'] ?? 0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">In Classes</span>
+                                    <span class="text-sm font-semibold text-blue-600">{{ $analytics['member_engagement']['members_in_classes'] ?? 0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">In Mentorships</span>
+                                    <span class="text-sm font-semibold text-purple-600">{{ $analytics['member_engagement']['members_in_mentorships'] ?? 0 }}</span>
+                                </div>
+                                <div class="pt-2 border-t border-gray-200 dark:border-gray-700">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Engagement Rate</span>
+                                        <span class="text-sm font-bold text-indigo-600">{{ number_format($analytics['member_engagement']['engagement_rate'] ?? 0, 1) }}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Class Performance -->
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                            <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Class Performance</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Total Classes</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $analytics['class_performance']['total_classes'] ?? 0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Active Classes</span>
+                                    <span class="text-sm font-semibold text-green-600">{{ $analytics['class_performance']['active_classes'] ?? 0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Total Sessions</span>
+                                    <span class="text-sm font-semibold text-blue-600">{{ $analytics['class_performance']['total_sessions'] ?? 0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Sessions with Attendance</span>
+                                    <span class="text-sm font-semibold text-purple-600">{{ $analytics['class_performance']['sessions_with_attendance'] ?? 0 }}</span>
+                                </div>
+                                <div class="pt-2 border-t border-gray-200 dark:border-gray-700">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Avg Attendance Rate</span>
+                                        <span class="text-sm font-bold text-indigo-600">{{ number_format($analytics['class_performance']['average_attendance_rate'] ?? 0, 1) }}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mentorship Success -->
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                            <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Mentorship Success</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Total Mentorships</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $analytics['mentorship_success']['total_mentorships'] ?? 0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Active</span>
+                                    <span class="text-sm font-semibold text-green-600">{{ $analytics['mentorship_success']['active_mentorships'] ?? 0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Completed</span>
+                                    <span class="text-sm font-semibold text-blue-600">{{ $analytics['mentorship_success']['completed_mentorships'] ?? 0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Paused</span>
+                                    <span class="text-sm font-semibold text-yellow-600">{{ $analytics['mentorship_success']['paused_mentorships'] ?? 0 }}</span>
+                                </div>
+                                <div class="pt-2 border-t border-gray-200 dark:border-gray-700">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Success Rate</span>
+                                        <span class="text-sm font-bold text-indigo-600">{{ number_format($analytics['mentorship_success']['success_rate'] ?? 0, 1) }}%</span>
+                                    </div>
+                                </div>
+                                @if(isset($analytics['mentorship_success']['average_duration_days']) && $analytics['mentorship_success']['average_duration_days'] > 0)
+                                <div class="pt-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Avg Duration</span>
+                                        <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ number_format($analytics['mentorship_success']['average_duration_days'], 0) }} days</span>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Attendance Trends Summary -->
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                            <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Attendance Trends (Last 3 Months)</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Total Attendance</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $analytics['attendance_trends']['total_attendance'] ?? 0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Average per Day</span>
+                                    <span class="text-sm font-semibold text-blue-600">{{ number_format($analytics['attendance_trends']['average_per_day'] ?? 0, 1) }}</span>
+                                </div>
+                                <div class="pt-2 border-t border-gray-200 dark:border-gray-700">
+                                    <div class="text-xs text-gray-500 dark:text-gray-400">
+                                        Period: {{ \Carbon\Carbon::parse($analytics['attendance_trends']['period']['start'] ?? now())->format('M d, Y') }} - 
+                                        {{ \Carbon\Carbon::parse($analytics['attendance_trends']['period']['end'] ?? now())->format('M d, Y') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Performing Classes -->
+                    @if(isset($analytics['class_performance']['top_performing_classes']) && count($analytics['class_performance']['top_performing_classes']) > 0)
+                    <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                        <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Top Performing Classes</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-900">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Class</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Sessions</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Enrollments</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Attendance Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                    @foreach(array_slice($analytics['class_performance']['top_performing_classes']->toArray(), 0, 5) as $class)
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">{{ $class['title'] }}</td>
+                                        <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{{ $class['sessions_count'] }}</td>
+                                        <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{{ $class['enrollments_count'] }}</td>
+                                        <td class="px-4 py-3 text-sm font-semibold text-indigo-600">{{ number_format($class['attendance_rate'], 1) }}%</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+            </div>
+            @endif
+
         </div>
     </div>
 </x-app-layout>
