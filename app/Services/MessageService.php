@@ -79,38 +79,64 @@ class MessageService
      */
     protected function sendEmail(Message $message, Member $recipient, string $subject, string $content, array &$results): void
     {
-        if (!$recipient->user || !$recipient->user->email) {
-            // Log failure - no email or user
+        // Check if recipient has a user account with email
+        $email = $recipient->user?->email ?? $recipient->email;
+        
+        if (!$email) {
+            // Log failure - no email address
             MessageLog::create([
                 'message_id' => $message->id,
                 'recipient' => $recipient->email ?? 'unknown',
                 'channel' => $message->channel,
                 'result' => 'failed',
-                'response' => ['error' => 'No email address or user account'],
+                'response' => ['error' => 'No email address available'],
                 'created_at' => now(),
             ]);
 
             $results['failed']++;
-            $results['errors'][] = "No email for {$recipient->full_name}";
+            $results['errors'][] = "No email address for {$recipient->full_name}";
             return;
         }
 
-        // Send via notification
-        $recipient->user->notify(
-            new CustomMessageNotification($subject, $content)
-        );
+        try {
+            // If recipient has a user account, send via notification
+            if ($recipient->user) {
+                $recipient->user->notify(
+                    new CustomMessageNotification($subject, $content)
+                );
+            } else {
+                // Fallback: send directly via Mail facade if no user account
+                \Illuminate\Support\Facades\Mail::raw($content, function ($mail) use ($email, $subject) {
+                    $mail->to($email)
+                        ->subject($subject ?: 'Message from Discipleship System');
+                });
+            }
 
-        // Log success
-        MessageLog::create([
-            'message_id' => $message->id,
-            'recipient' => $recipient->user->email,
-            'channel' => $message->channel,
-            'result' => 'success',
-            'response' => ['sent' => true],
-            'created_at' => now(),
-        ]);
+            // Log success
+            MessageLog::create([
+                'message_id' => $message->id,
+                'recipient' => $email,
+                'channel' => $message->channel,
+                'result' => 'success',
+                'response' => ['sent' => true, 'sent_at' => now()->toIso8601String()],
+                'created_at' => now(),
+            ]);
 
-        $results['success']++;
+            $results['success']++;
+        } catch (\Exception $e) {
+            // Log failure with exception details
+            MessageLog::create([
+                'message_id' => $message->id,
+                'recipient' => $email,
+                'channel' => $message->channel,
+                'result' => 'failed',
+                'response' => ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()],
+                'created_at' => now(),
+            ]);
+
+            $results['failed']++;
+            $results['errors'][] = "Failed to send email to {$recipient->full_name}: {$e->getMessage()}";
+        }
     }
 
     /**

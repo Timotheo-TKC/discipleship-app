@@ -219,56 +219,90 @@
 
             <!-- Role-specific Information -->
             @if($user->isAdmin())
-                <!-- Admin System Health -->
+                <!-- Admin System Analytics -->
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-                            System Health
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <div class="text-center">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                System Analytics
+                            </h3>
+                            <a href="{{ route('admin.dashboard') }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
+                                View Full Admin Dashboard →
+                            </a>
+                        </div>
+                        
+                        <!-- User Statistics -->
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                            <div class="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                                 <div class="text-2xl font-bold text-blue-600">{{ $userStats['admin'] ?? 0 }}</div>
                                 <div class="text-sm text-gray-500 dark:text-gray-400">Admins</div>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
                                 <div class="text-2xl font-bold text-green-600">{{ $userStats['pastor'] ?? 0 }}</div>
                                 <div class="text-sm text-gray-500 dark:text-gray-400">Pastors</div>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
                                 <div class="text-2xl font-bold text-amber-500">{{ $userStats['mentor'] ?? 0 }}</div>
                                 <div class="text-sm text-gray-500 dark:text-gray-400">Mentors</div>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                                 <div class="text-2xl font-bold text-purple-600">{{ $userStats['member'] ?? 0 }}</div>
                                 <div class="text-sm text-gray-500 dark:text-gray-400">Members</div>
                             </div>
                         </div>
-                        @if(isset($systemHealth))
-                            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div class="text-center">
-                                        <div class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $systemHealth['totalUsers'] ?? 0 }}</div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">Total Users</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-lg font-semibold text-yellow-600">{{ $systemHealth['pendingMessages'] ?? 0 }}</div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">Pending Messages</div>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-lg font-semibold text-red-600">{{ $systemHealth['failedMessages'] ?? 0 }}</div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">Failed Messages</div>
-                                    </div>
+
+                        <!-- Charts Grid -->
+                        @if(isset($analytics['charts']))
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Member Growth Chart -->
+                            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4">
+                                <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Member Growth (Last 12 Months)</h4>
+                                <div style="height: 250px;">
+                                    <canvas id="memberGrowthChart"></canvas>
                                 </div>
                             </div>
-                        @endif
-                        <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                            <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-md">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                View Full Admin Dashboard
-                            </a>
+
+                            <!-- Attendance by Month Chart -->
+                            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4">
+                                <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Monthly Attendance (Last 12 Months)</h4>
+                                <div style="height: 250px;">
+                                    <canvas id="attendanceChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Daily Attendance Chart -->
+                            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4">
+                                <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Daily Attendance Trends</h4>
+                                <div style="height: 250px;">
+                                    <canvas id="dailyAttendanceChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Messages Over Time Chart -->
+                            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4">
+                                <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Messages Sent (Last 6 Months)</h4>
+                                <div style="height: 250px;">
+                                    <canvas id="messagesChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Mentorship Status Chart -->
+                            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4">
+                                <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Mentorship Status Distribution</h4>
+                                <div style="height: 250px;">
+                                    <canvas id="mentorshipStatusChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Class Performance Chart -->
+                            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4">
+                                <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Top Performing Classes</h4>
+                                <div style="height: 250px;">
+                                    <canvas id="classPerformanceChart"></canvas>
+                                </div>
+                            </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             @elseif($user->isPastor() || $user->isMentor())
@@ -564,4 +598,17 @@
 
         </div>
     </div>
+
+    @if(isset($analytics['charts']))
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chartData = @json($analytics['charts']);
+            if (typeof initDashboardCharts === 'function') {
+                initDashboardCharts(chartData);
+            }
+        });
+    </script>
+    @endpush
+    @endif
 </x-app-layout>

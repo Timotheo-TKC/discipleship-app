@@ -29,9 +29,13 @@ class CustomMessageNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        // Convert content to HTML if it contains line breaks
+        $htmlContent = nl2br(e($this->content));
+        
         return (new MailMessage)
-            ->subject($this->subject)
-            ->line($this->content)
+            ->subject($this->subject ?: 'Message from Discipleship System')
+            ->greeting("Hello {$notifiable->name},")
+            ->line($htmlContent)
             ->salutation("Blessings,\nYour Discipleship Team");
     }
 

@@ -150,13 +150,6 @@ class DashboardController extends Controller
                 'mentor' => $userStats['mentor'] ?? 0,
                 'member' => $userStats['member'] ?? 0,
             ],
-            'systemHealth' => [
-                'totalUsers' => User::count(),
-                'pendingMessages' => Message::where('status', 'scheduled')
-                    ->where('scheduled_at', '<=', now())
-                    ->count(),
-                'failedMessages' => Message::where('status', 'failed')->count(),
-            ],
         ];
     }
 
@@ -213,14 +206,114 @@ class DashboardController extends Controller
      */
     private function getAnalyticsData(): array
     {
+        $attendanceTrends = $this->reportService->getAttendanceTrends(
+            Carbon::now()->subMonths(config('analytics.dashboard_attendance_trends_months', 3)),
+            Carbon::now()
+        );
+
         return [
             'member_engagement' => $this->reportService->getMemberEngagement(),
             'class_performance' => $this->reportService->getClassPerformance(),
             'mentorship_success' => $this->reportService->getMentorshipSuccess(),
-            'attendance_trends' => $this->reportService->getAttendanceTrends(
-                Carbon::now()->subMonths(config('analytics.dashboard_attendance_trends_months', 3)),
-                Carbon::now()
-            ),
+            'attendance_trends' => $attendanceTrends,
+            'charts' => $this->getChartData($attendanceTrends),
+        ];
+    }
+
+    /**
+     * Get chart data for visualizations
+     */
+    private function getChartData(array $attendanceTrends): array
+    {
+        // Member growth over time (last 12 months) - SQLite compatible
+        $memberGrowth = Member::where('created_at', '>=', Carbon::now()->subMonths(12))
+            ->get()
+            ->groupBy(function ($member) {
+                return $member->created_at->format('Y-m');
+            })
+            ->map(function ($members, $month) {
+                return [
+                    'month' => $month,
+                    'count' => $members->count(),
+                ];
+            })
+            ->sortKeys()
+            ->values();
+
+        // Attendance by month (last 12 months) - SQLite compatible
+        $attendanceByMonth = Attendance::whereHas('classSession', function ($query) {
+            $query->where('session_date', '>=', Carbon::now()->subMonths(12));
+        })
+            ->with('classSession')
+            ->get()
+            ->groupBy(function ($attendance) {
+                return Carbon::parse($attendance->classSession->session_date)->format('Y-m');
+            })
+            ->map(function ($attendances, $month) {
+                return [
+                    'month' => $month,
+                    'count' => $attendances->count(),
+                ];
+            })
+            ->sortKeys()
+            ->values();
+
+        // Class performance by class
+        $classPerformance = DiscipleshipClass::withCount(['sessions', 'enrollments'])
+            ->with(['sessions' => function ($query) {
+                $query->withCount('attendance');
+            }])
+            ->get()
+            ->map(function ($class) {
+                $totalPossible = $class->sessions_count * $class->enrollments_count;
+                $attendanceRate = $totalPossible > 0 
+                    ? round(($class->sessions->sum('attendance_count') / $totalPossible) * 100, 1)
+                    : 0;
+
+                return [
+                    'title' => $class->title,
+                    'sessions' => $class->sessions_count,
+                    'enrollments' => $class->enrollments_count,
+                    'attendance_rate' => $attendanceRate,
+                ];
+            })
+            ->sortByDesc('attendance_rate')
+            ->take(10)
+            ->values();
+
+        // Messages sent over time (last 6 months) - SQLite compatible
+        $messagesOverTime = Message::where('created_at', '>=', Carbon::now()->subMonths(6))
+            ->get()
+            ->groupBy(function ($message) {
+                return $message->created_at->format('Y-m');
+            })
+            ->map(function ($messages, $month) {
+                return [
+                    'month' => $month,
+                    'count' => $messages->count(),
+                ];
+            })
+            ->sortKeys()
+            ->values();
+
+        // Mentorship status distribution
+        $mentorshipStatus = Mentorship::selectRaw('status, COUNT(*) as count')
+            ->groupBy('status')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'status' => ucfirst($item->status),
+                    'count' => (int) $item->count,
+                ];
+            });
+
+        return [
+            'member_growth' => $memberGrowth,
+            'attendance_by_month' => $attendanceByMonth,
+            'class_performance' => $classPerformance,
+            'messages_over_time' => $messagesOverTime,
+            'mentorship_status' => $mentorshipStatus,
+            'attendance_daily' => $attendanceTrends['trends'] ?? collect(),
         ];
     }
 }

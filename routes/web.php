@@ -98,7 +98,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
         Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
         Route::get('/users/{user}', [AdminController::class, 'showUser'])->name('users.show');
-        Route::get('/system-health', [AdminController::class, 'systemHealth'])->name('system-health');
     });
 });
 

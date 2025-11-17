@@ -45,7 +45,6 @@ class RoleBasedAccessTest extends TestCase
         // Admin panel
         $this->get(route('admin.dashboard'))->assertOk();
         $this->get(route('admin.users'))->assertOk();
-        $this->get(route('admin.system-health'))->assertOk();
     }
 
     /** @test */
