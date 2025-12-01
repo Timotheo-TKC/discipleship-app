@@ -29,7 +29,7 @@ class ClassRequest extends FormRequest
                 'required',
                 'exists:users,id',
                 Rule::exists('users', 'id')->where(function ($query) {
-                    $query->whereIn('role', ['admin', 'pastor', 'mentor']);
+                    $query->where('role', 'mentor'); // Only users with 'mentor' role can be mentors for classes
                 }),
             ],
             'capacity' => ['required', 'integer', 'min:1', 'max:100'],
@@ -55,7 +55,7 @@ class ClassRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'mentor_id.exists' => 'The selected mentor must be an admin, pastor, or mentor.',
+            'mentor_id.exists' => 'The selected mentor must have the mentor role.',
             'schedule_day.required_if' => 'Schedule day is required for weekly and biweekly schedules.',
             'start_date.after_or_equal' => 'Start date cannot be in the past.',
             'end_date.after' => 'End date must be after the start date.',

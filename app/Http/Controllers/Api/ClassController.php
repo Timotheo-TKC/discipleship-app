@@ -250,7 +250,8 @@ class ClassController extends Controller
      */
     public function mentors()
     {
-        $mentors = User::whereIn('role', ['admin', 'pastor', 'mentor'])
+        // Only users with 'mentor' role can be mentors for classes
+        $mentors = User::where('role', 'mentor')
             ->orderBy('name')
             ->get(['id', 'name', 'role']);
 

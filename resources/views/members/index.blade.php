@@ -55,7 +55,6 @@
                             <select name="preferred_contact" id="preferred_contact" 
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                 <option value="">All</option>
-                                <option value="sms" {{ request('preferred_contact') === 'sms' ? 'selected' : '' }}>SMS</option>
                                 <option value="email" {{ request('preferred_contact') === 'email' ? 'selected' : '' }}>Email</option>
                                 <option value="call" {{ request('preferred_contact') === 'call' ? 'selected' : '' }}>Call</option>
                             </select>
@@ -114,9 +113,9 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                                    @if($member->preferred_contact === 'sms') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
-                                                    @elseif($member->preferred_contact === 'email') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                                                    @else bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200
+                                                    @if($member->preferred_contact === 'email') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                                    @elseif($member->preferred_contact === 'call') bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200
+                                                    @else bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200
                                                     @endif">
                                                     {{ ucfirst($member->preferred_contact) }}
                                                 </span>

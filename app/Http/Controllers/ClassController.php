@@ -72,8 +72,8 @@ class ClassController extends Controller
                         ->paginate(15)
                         ->withQueryString();
 
-        // Get mentors for filter dropdown
-        $mentors = User::whereIn('role', ['admin', 'pastor', 'mentor'])
+        // Get mentors for filter dropdown (only actual mentors)
+        $mentors = User::where('role', 'mentor')
                       ->orderBy('name')
                       ->get();
 
@@ -87,7 +87,8 @@ class ClassController extends Controller
     {
         $this->authorize('create', DiscipleshipClass::class);
         
-        $mentors = User::whereIn('role', ['admin', 'pastor', 'mentor'])
+        // Only users with 'mentor' role can be assigned as mentors for classes
+        $mentors = User::where('role', 'mentor')
                       ->orderBy('name')
                       ->get();
 
@@ -292,7 +293,8 @@ class ClassController extends Controller
     {
         $this->authorize('update', $class);
         
-        $mentors = User::whereIn('role', ['admin', 'pastor', 'mentor'])
+        // Only users with 'mentor' role can be assigned as mentors for classes
+        $mentors = User::where('role', 'mentor')
                       ->orderBy('name')
                       ->get();
 

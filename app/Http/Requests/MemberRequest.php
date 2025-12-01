@@ -40,7 +40,7 @@ class MemberRequest extends FormRequest
                 Rule::unique('users', 'email'),
             ],
             'date_of_conversion' => ['required', 'date', 'before_or_equal:today'],
-            'preferred_contact' => ['required', 'in:sms,email,call'],
+            'preferred_contact' => ['required', 'in:email,call'],
             'notes' => ['nullable', 'string', 'max:1000'],
         ];
     }
@@ -53,7 +53,7 @@ class MemberRequest extends FormRequest
         return [
             'phone.regex' => 'The phone number must be a valid Kenyan phone number (e.g., +254712345678 or 0712345678).',
             'date_of_conversion.before_or_equal' => 'The conversion date cannot be in the future.',
-            'preferred_contact.in' => 'Preferred contact must be SMS, email, or call.',
+            'preferred_contact.in' => 'Preferred contact must be email or call.',
         ];
     }
 

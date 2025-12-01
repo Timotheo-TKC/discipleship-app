@@ -16,7 +16,7 @@ class MemberFactory extends Factory
      */
     public function definition(): array
     {
-        $preferredContacts = ['sms', 'email', 'call'];
+        $preferredContacts = ['email', 'call'];
 
         return [
             'full_name' => $this->faker->name(),

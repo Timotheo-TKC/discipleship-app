@@ -21,7 +21,7 @@
                     <li>• Fill in member information following the template structure</li>
                     <li>• Phone numbers must be valid Kenyan numbers (e.g., +254712345678 or 0712345678)</li>
                     <li>• Conversion dates cannot be in the future</li>
-                    <li>• Preferred contact must be one of: sms, email, call</li>
+                    <li>• Preferred contact must be one of: email, call</li>
                     <li>• Maximum file size: 2MB</li>
                 </ul>
             </div>
@@ -91,7 +91,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">+254712345678</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">john@example.com</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">2024-01-15</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">sms</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">email</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">New member from outreach</td>
                                 </tr>
                                 <tr>

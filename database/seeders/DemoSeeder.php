@@ -58,7 +58,7 @@ class DemoSeeder extends Seeder
                 'phone' => '071' . fake()->numberBetween(1000000, 9999999),
                 'email' => fake()->optional(0.8)->safeEmail(),
                 'date_of_conversion' => fake()->dateTimeBetween('-3 months', '-1 month')->format('Y-m-d'),
-                'preferred_contact' => fake()->randomElement(['sms', 'email', 'call']),
+                'preferred_contact' => fake()->randomElement(['email', 'call']),
                 'notes' => fake()->optional(0.7)->randomElement([
                     'New member, needs follow-up',
                     'Active in church activities',
@@ -82,7 +82,7 @@ class DemoSeeder extends Seeder
                 'phone' => '072' . fake()->numberBetween(1000000, 9999999),
                 'email' => fake()->optional(0.8)->safeEmail(),
                 'date_of_conversion' => fake()->dateTimeBetween('-2 years', '-6 months')->format('Y-m-d'),
-                'preferred_contact' => fake()->randomElement(['sms', 'email', 'call']),
+                'preferred_contact' => fake()->randomElement(['email', 'call']),
                 'notes' => fake()->optional(0.7)->randomElement([
                     'New member, needs follow-up',
                     'Active in church activities',
@@ -106,7 +106,7 @@ class DemoSeeder extends Seeder
                 'phone' => '073' . fake()->numberBetween(1000000, 9999999),
                 'email' => fake()->optional(0.8)->safeEmail(),
                 'date_of_conversion' => fake()->dateTimeBetween('-5 years', '-2 years')->format('Y-m-d'),
-                'preferred_contact' => fake()->randomElement(['sms', 'email', 'call']),
+                'preferred_contact' => fake()->randomElement(['email', 'call']),
                 'notes' => fake()->optional(0.7)->randomElement([
                     'New member, needs follow-up',
                     'Active in church activities',

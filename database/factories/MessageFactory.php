@@ -18,7 +18,7 @@ class MessageFactory extends Factory
     {
         return [
             'message_type' => $this->faker->randomElement(['welcome', 'class_reminder', 'mentorship_assigned', 'general', 'custom']),
-            'channel' => $this->faker->randomElement(['email', 'sms']),
+            'channel' => 'email',
             'template' => $this->faker->sentence(),
             'scheduled_at' => null,
             'status' => $this->faker->randomElement(['draft', 'scheduled', 'sent', 'failed']),

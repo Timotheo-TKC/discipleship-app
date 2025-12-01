@@ -52,9 +52,9 @@
                                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Preferred Contact</dt>
                                     <dd class="text-sm">
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                            @if($member->preferred_contact === 'sms') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
-                                            @elseif($member->preferred_contact === 'email') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                                            @else bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200
+                                            @if($member->preferred_contact === 'email') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                            @elseif($member->preferred_contact === 'call') bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200
+                                            @else bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200
                                             @endif">
                                             {{ ucfirst($member->preferred_contact) }}
                                         </span>

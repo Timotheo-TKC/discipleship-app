@@ -29,7 +29,7 @@ class MemberImportService
                     'phone' => ['required', 'string', 'min:10', 'max:20', 'unique:members,phone'],
                     'email' => ['required', 'string', 'email', 'max:255', 'unique:members,email', 'unique:users,email'],
                     'date_of_conversion' => ['required', 'date_format:Y-m-d'],
-                    'preferred_contact' => ['required', 'string', 'in:sms,email,call'],
+                    'preferred_contact' => ['required', 'string', 'in:email,call'],
                     'notes' => ['nullable', 'string'],
                 ]);
 
@@ -189,12 +189,12 @@ class MemberImportService
                 'unique:users,email',
             ],
             'date_of_conversion' => ['required', 'date', 'before_or_equal:today'],
-            'preferred_contact' => ['required', 'in:sms,email,call'],
+            'preferred_contact' => ['required', 'in:email,call'],
             'notes' => ['nullable', 'string', 'max:1000'],
         ], [
             'phone.regex' => 'The phone number must be a valid Kenyan phone number.',
             'date_of_conversion.before_or_equal' => 'The conversion date cannot be in the future.',
-            'preferred_contact.in' => 'Preferred contact must be SMS, email, or call.',
+            'preferred_contact.in' => 'Preferred contact must be email or call.',
         ]);
 
         if ($validator->fails()) {
