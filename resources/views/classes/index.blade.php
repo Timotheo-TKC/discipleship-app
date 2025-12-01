@@ -141,22 +141,22 @@
                                             @endif
                                         @endauth
                                         @if(auth()->user()->isAdmin() || auth()->user()->isPastor())
-                                            @can('update', $class)
-                                                <a href="{{ route('classes.edit', $class) }}" class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300 text-sm">
-                                                    Edit
-                                                </a>
-                                            @endcan
+                                        @can('update', $class)
+                                            <a href="{{ route('classes.edit', $class) }}" class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300 text-sm">
+                                                Edit
+                                            </a>
+                                        @endcan
                                         @endif
                                         @if(auth()->user()->isAdmin())
-                                            @can('delete', $class)
-                                                <form method="POST" action="{{ route('classes.destroy', $class) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete this class?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm">
-                                                        Delete
-                                                    </button>
-                                                </form>
-                                            @endcan
+                                        @can('delete', $class)
+                                            <form method="POST" action="{{ route('classes.destroy', $class) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete this class?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        @endcan
                                         @endif
                                     </div>
                                 </div>

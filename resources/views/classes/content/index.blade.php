@@ -75,7 +75,7 @@
                                                 </div>
                                                 
                                                 <h4 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                                                    {{ $content->title }}
+                                                        {{ $content->title }}
                                                 </h4>
                                                 
                                                 @if($content->content)
