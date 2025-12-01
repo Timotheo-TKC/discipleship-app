@@ -150,13 +150,14 @@
                                         @if(auth()->user()->isAdmin())
                                             @can('delete', $class)
                                                 <form method="POST" action="{{ route('classes.destroy', $class) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete this class?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        @endcan
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            @endcan
+                                        @endif
                                     </div>
                                 </div>
                             </div>

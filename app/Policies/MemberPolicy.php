@@ -12,7 +12,8 @@ class MemberPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->canManageMembers();
+        // Mentors can view members (read-only), admins and pastors can manage
+        return $user->isAdmin() || $user->isPastor() || $user->isMentor();
     }
 
     /**
@@ -20,7 +21,8 @@ class MemberPolicy
      */
     public function view(User $user, Member $member): bool
     {
-        return $user->canManageMembers();
+        // Mentors can view members (read-only), admins and pastors can manage
+        return $user->isAdmin() || $user->isPastor() || $user->isMentor();
     }
 
     /**
@@ -28,7 +30,8 @@ class MemberPolicy
      */
     public function create(User $user): bool
     {
-        return $user->canManageMembers();
+        // Only admins and pastors can create members, not mentors
+        return $user->isAdmin() || $user->isPastor();
     }
 
     /**
@@ -36,7 +39,8 @@ class MemberPolicy
      */
     public function update(User $user, Member $member): bool
     {
-        return $user->canManageMembers();
+        // Only admins and pastors can update members, not mentors
+        return $user->isAdmin() || $user->isPastor();
     }
 
     /**
@@ -68,7 +72,8 @@ class MemberPolicy
      */
     public function import(User $user): bool
     {
-        return $user->canManageMembers();
+        // Only admins and pastors can import members, not mentors
+        return $user->isAdmin() || $user->isPastor();
     }
 
     /**
@@ -76,6 +81,7 @@ class MemberPolicy
      */
     public function export(User $user): bool
     {
-        return $user->canManageMembers();
+        // Mentors can export (read-only operation), admins and pastors can export
+        return $user->isAdmin() || $user->isPastor() || $user->isMentor();
     }
 }
