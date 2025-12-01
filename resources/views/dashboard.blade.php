@@ -53,111 +53,106 @@
                 </div>
             @endif
 
-            <!-- Overview Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Total Members - Only for Admin/Pastor/Mentor -->
-                @if(!$user->isMember())
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-                                    </svg>
+            <!-- Overview Cards - Only for Admin and Pastor, not Mentors -->
+            @if($user->isAdmin() || $user->isPastor())
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Total Members -->
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                        </svg>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="ml-4">
-                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                                    Total Members
-                                </dt>
-                                <dd class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                                    {{ number_format($totalMembers) }}
-                                </dd>
+                                <div class="ml-4">
+                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                                        Total Members
+                                    </dt>
+                                    <dd class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                                        {{ number_format($totalMembers) }}
+                                    </dd>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                @endif
 
-                <!-- Active Classes -->
-                @can('viewAny', App\Models\DiscipleshipClass::class)
-                <a href="{{ route('classes.index') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow cursor-pointer">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                                    </svg>
+                    <!-- Active Classes -->
+                    @can('viewAny', App\Models\DiscipleshipClass::class)
+                    <a href="{{ route('classes.index') }}" class="block bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                                        Active Classes
+                                    </div>
+                                    <div class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                                        {{ number_format($totalClasses) }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="ml-4">
-                                <div class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                                    Active Classes
+                        </div>
+                    </a>
+                    @else
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                        </svg>
+                                    </div>
                                 </div>
-                                <div class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                                    {{ number_format($totalClasses) }}
+                                <div class="ml-4">
+                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                                        Active Classes
+                                    </dt>
+                                    <dd class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                                        {{ number_format($totalClasses) }}
+                                    </dd>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </a>
-                @else
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                                    Active Classes
-                                </dt>
-                                <dd class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                                    {{ number_format($totalClasses) }}
-                                </dd>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endcan
+                    @endcan
 
-                <!-- Total Sessions -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0v6m0-6h-6"></path>
-                                    </svg>
+                    <!-- Total Sessions -->
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0v6m0-6h-6"></path>
+                                        </svg>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="ml-4">
-                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                                    @if($user->isMember())
-                                        My Sessions
-                                    @else
+                                <div class="ml-4">
+                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
                                         Total Sessions
-                                    @endif
-                                </dt>
-                                <dd class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                                    {{ number_format($totalSessions) }}
-                                </dd>
+                                    </dt>
+                                    <dd class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                                        {{ number_format($totalSessions) }}
+                                    </dd>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Attendance Rate -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center">
+                    <!-- Attendance Rate -->
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6">
+                            <div class="flex items-center">
                             <div class="flex-shrink-0">
                                 <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
                                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -182,11 +177,11 @@
                 </div>
             </div>
 
-            <!-- Recent Activity & Today's Sessions -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Recent Activity - Only for Admin/Pastor/Mentor -->
-                @if(!$user->isMember())
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <!-- Recent Activity & Today's Sessions - Only for Admin and Pastor, not Mentors -->
+            @if($user->isAdmin() || $user->isPastor())
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Recent Activity -->
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
                             Recent Activity (30 days)
@@ -227,7 +222,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
+            @endif
 
             <!-- Role-specific Information -->
             @if($user->isAdmin())
@@ -392,30 +388,31 @@
                 @endif
             @endif
 
-            <!-- Quick Actions -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-                        Quick Actions
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        @if($user->canManageMembers())
-                            <a href="{{ route('members.create') }}" class="flex flex-col items-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
-                                <svg class="w-8 h-8 text-blue-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-                                </svg>
-                                <span class="text-sm font-medium text-blue-600">Add Member</span>
-                            </a>
-                        @endif
+            <!-- Quick Actions (Only for Admin and Pastor, not Mentors) -->
+            @if($user->isAdmin() || $user->isPastor())
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
+                            Quick Actions
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            @if($user->canManageMembers())
+                                <a href="{{ route('members.create') }}" class="flex flex-col items-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
+                                    <svg class="w-8 h-8 text-blue-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium text-blue-600">Add Member</span>
+                                </a>
+                            @endif
 
-                        @if($user->canManageClasses())
-                            <a href="{{ route('classes.create') }}" class="flex flex-col items-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors">
-                                <svg class="w-8 h-8 text-green-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
-                                <span class="text-sm font-medium text-green-600">Create Class</span>
-                            </a>
-                        @endif
+                            @if($user->canManageClasses())
+                                <a href="{{ route('classes.create') }}" class="flex flex-col items-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors">
+                                    <svg class="w-8 h-8 text-green-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium text-green-600">Create Class</span>
+                                </a>
+                            @endif
 
                         @if($user->canManageClasses())
                             <a href="{{ route('classes.index') }}" class="flex flex-col items-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors">
@@ -445,8 +442,8 @@
                 </div>
             </div>
 
-            <!-- Analytics Dashboard - Only for Admin/Pastor/Mentor -->
-            @if(isset($analytics) && !empty($analytics) && !$user->isMember())
+            <!-- Analytics Dashboard - Only for Admin and Pastor, not Mentors -->
+            @if(isset($analytics) && !empty($analytics) && ($user->isAdmin() || $user->isPastor()))
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-6">
