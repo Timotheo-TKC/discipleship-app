@@ -250,11 +250,21 @@ class DashboardController extends Controller
 
         // For mentors: only count members they're linked to via mentorships
         if ($user->isMentor()) {
+            // Count mentorship sessions (bookings) or fallback to active mentorships if no bookings
+            $bookingCount = Booking::where('mentor_id', $user->id)
+                ->whereIn('status', ['confirmed', 'completed'])
+                ->count();
+            
+            // If no bookings, count active mentorships as sessions
+            $sessionCount = $bookingCount > 0 
+                ? $bookingCount 
+                : Mentorship::where('mentor_id', $user->id)
+                    ->where('status', 'active')
+                    ->count();
+            
             return [
                 'myClasses' => DiscipleshipClass::byMentor($user->id)->count(),
-                'mySessions' => Booking::where('mentor_id', $user->id)
-                    ->whereIn('status', ['confirmed', 'completed'])
-                    ->count(),
+                'mySessions' => $sessionCount,
                 'myMembers' => Member::whereHas('mentorships', function ($query) use ($user) {
                     $query->where('mentor_id', $user->id);
                 })->distinct()->count(),

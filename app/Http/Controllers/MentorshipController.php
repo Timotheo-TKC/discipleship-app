@@ -208,17 +208,21 @@ class MentorshipController extends Controller
             return redirect()
                 ->route('mentorships.show', $mentorship)
                 ->with('success', 'Mentorship relationship updated successfully.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Validation errors will be automatically redirected back with errors
+            throw $e;
         } catch (\Exception $e) {
             \Log::error('Mentorship update failed: ' . $e->getMessage(), [
                 'mentorship_id' => $mentorship->id,
                 'user_id' => $user->id,
-                'exception' => $e
+                'exception' => $e,
+                'trace' => $e->getTraceAsString()
             ]);
 
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Failed to update mentorship. Please try again. Error: ' . $e->getMessage());
+                ->with('error', 'Failed to update mentorship. Please check the form and try again.');
         }
     }
 
