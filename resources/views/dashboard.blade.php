@@ -175,7 +175,6 @@
                         </div>
                     </div>
                 </div>
-                </div>
             @endif
 
             <!-- Recent Activity & Today's Sessions - Only for Admin and Pastor, not Mentors -->
@@ -183,46 +182,45 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Recent Activity -->
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-                            Recent Activity (30 days)
-                        </h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-600 dark:text-gray-400">New Members</span>
-                                <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $recentMembers }}</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-600 dark:text-gray-400">Sessions Held</span>
-                                <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $recentSessions }}</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-600 dark:text-gray-400">Active Mentorships</span>
-                                <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $activeMentorships }}</span>
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
+                                Recent Activity (30 days)
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">New Members</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $recentMembers }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Sessions Held</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $recentSessions }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Active Mentorships</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $activeMentorships }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                @endif
 
-                <!-- Today's Sessions -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-                            Today's Sessions
-                        </h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-600 dark:text-gray-400">Sessions Today</span>
-                                <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $todaySessions }}</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-600 dark:text-gray-400">Attendance Today</span>
-                                <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $todayAttendance }}</span>
+                    <!-- Today's Sessions -->
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
+                                Today's Sessions
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Sessions Today</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $todaySessions }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Attendance Today</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $todayAttendance }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </div>
             @endif
 
@@ -439,9 +437,10 @@
                                 <span class="text-sm font-medium text-yellow-600">Send Message</span>
                             </a>
                         @endif
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
             <!-- Analytics Dashboard - Only for Admin and Pastor, not Mentors -->
             @if(isset($analytics) && !empty($analytics) && ($user->isAdmin() || $user->isPastor()))
