@@ -98,7 +98,7 @@
                                 <div class="space-y-2 mb-4">
                                     <div class="flex justify-between text-sm">
                                         <span class="text-gray-500 dark:text-gray-400">Mentor:</span>
-                                        <span class="text-gray-900 dark:text-gray-100">{{ $class->mentor->name }}</span>
+                                        <span class="text-gray-900 dark:text-gray-100">{{ $class->mentor ? $class->mentor->name : 'Not Assigned' }}</span>
                                     </div>
                                     <div class="flex justify-between text-sm">
                                         <span class="text-gray-500 dark:text-gray-400">Capacity:</span>

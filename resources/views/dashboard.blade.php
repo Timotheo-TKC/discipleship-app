@@ -234,32 +234,32 @@
                                 <div class="space-y-3">
                                     @if($user->canManageMembers())
                                     <a href="{{ route('members.create') }}" class="flex items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
-                                        <svg class="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                                         </svg>
-                                        <span class="text-sm font-medium text-blue-600">Add Member</span>
+                                        <span class="text-sm font-medium text-blue-600 dark:text-blue-400">Add Member</span>
                                     </a>
                                     @endif
                                     @if($user->canManageClasses())
                                     <a href="{{ route('classes.create') }}" class="flex items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors">
-                                        <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-green-600 dark:text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                         </svg>
-                                        <span class="text-sm font-medium text-green-600">Create Class</span>
+                                        <span class="text-sm font-medium text-green-600 dark:text-green-400">Create Class</span>
                                     </a>
                                     <a href="{{ route('classes.index') }}" class="flex items-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors">
-                                        <svg class="w-5 h-5 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0v6m0-6h-6"></path>
                                         </svg>
-                                        <span class="text-sm font-medium text-purple-600">Mark Attendance</span>
+                                        <span class="text-sm font-medium text-purple-600 dark:text-purple-400">Mark Attendance</span>
                                     </a>
                                     @endif
                                     @if($user->canManageMembers())
                                     <a href="{{ route('messages.create') }}" class="flex items-center p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg hover:bg-yellow-100 dark:hover:bg-yellow-900/30 transition-colors">
-                                        <svg class="w-5 h-5 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                         </svg>
-                                        <span class="text-sm font-medium text-yellow-600">Send Message</span>
+                                        <span class="text-sm font-medium text-yellow-600 dark:text-yellow-400">Send Message</span>
                                     </a>
                                     @endif
                                 </div>
@@ -360,11 +360,11 @@
                                         <div class="space-y-2 text-xs">
                                             <div class="flex justify-between">
                                                 <span class="text-gray-600 dark:text-gray-400">Total</span>
-                                                <span class="font-semibold">{{ $analytics['member_engagement']['total_members'] ?? 0 }}</span>
+                                                <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $analytics['member_engagement']['total_members'] ?? 0 }}</span>
                                             </div>
                                             <div class="flex justify-between">
                                                 <span class="text-gray-600 dark:text-gray-400">Engagement</span>
-                                                <span class="font-semibold text-indigo-600">{{ number_format($analytics['member_engagement']['engagement_rate'] ?? 0, 1) }}%</span>
+                                                <span class="font-semibold text-indigo-600 dark:text-indigo-400">{{ number_format($analytics['member_engagement']['engagement_rate'] ?? 0, 1) }}%</span>
                                             </div>
                                         </div>
                                     </div>
@@ -373,11 +373,11 @@
                                         <div class="space-y-2 text-xs">
                                             <div class="flex justify-between">
                                                 <span class="text-gray-600 dark:text-gray-400">Active</span>
-                                                <span class="font-semibold">{{ $analytics['class_performance']['active_classes'] ?? 0 }}</span>
+                                                <span class="font-semibold text-gray-900 dark:text-gray-100">{{ $analytics['class_performance']['active_classes'] ?? 0 }}</span>
                                             </div>
                                             <div class="flex justify-between">
                                                 <span class="text-gray-600 dark:text-gray-400">Attendance</span>
-                                                <span class="font-semibold text-indigo-600">{{ number_format($analytics['class_performance']['average_attendance_rate'] ?? 0, 1) }}%</span>
+                                                <span class="font-semibold text-indigo-600 dark:text-indigo-400">{{ number_format($analytics['class_performance']['average_attendance_rate'] ?? 0, 1) }}%</span>
                                             </div>
                                         </div>
                                     </div>
@@ -430,16 +430,16 @@
                         <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">My Enrollments</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                                <div class="text-2xl font-bold text-blue-600">{{ $myEnrollments }}</div>
+                                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $myEnrollments }}</div>
                                 <div class="text-sm text-gray-500 dark:text-gray-400">Active Enrollments</div>
                             </div>
                             <div class="text-center p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                                <div class="text-2xl font-bold text-yellow-600">{{ $pendingEnrollments }}</div>
+                                <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{{ $pendingEnrollments }}</div>
                                 <div class="text-sm text-gray-500 dark:text-gray-400">Pending Requests</div>
                             </div>
                             <div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
                                 <a href="{{ route('member.enrollments.index') }}" class="block hover:opacity-75 transition-opacity">
-                                    <div class="text-sm font-medium text-green-600 mb-1">View All</div>
+                                    <div class="text-sm font-medium text-green-600 dark:text-green-400 mb-1">View All</div>
                                     <div class="text-xs text-gray-500 dark:text-gray-400">My Enrollments</div>
                                 </a>
                             </div>
@@ -487,7 +487,7 @@
                                 <div class="pt-2 border-t border-gray-200 dark:border-gray-700">
                                     <div class="flex justify-between items-center">
                                         <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Engagement Rate</span>
-                                        <span class="text-sm font-bold text-indigo-600">{{ number_format($analytics['member_engagement']['engagement_rate'] ?? 0, 1) }}%</span>
+                                        <span class="text-sm font-bold text-indigo-600 dark:text-indigo-400">{{ number_format($analytics['member_engagement']['engagement_rate'] ?? 0, 1) }}%</span>
                                     </div>
                                 </div>
                             </div>
@@ -514,7 +514,7 @@
                                 <div class="pt-2 border-t border-gray-200 dark:border-gray-700">
                                     <div class="flex justify-between items-center">
                                         <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Avg Attendance Rate</span>
-                                        <span class="text-sm font-bold text-indigo-600">{{ number_format($analytics['class_performance']['average_attendance_rate'] ?? 0, 1) }}%</span>
+                                        <span class="text-sm font-bold text-indigo-600 dark:text-indigo-400">{{ number_format($analytics['class_performance']['average_attendance_rate'] ?? 0, 1) }}%</span>
                                     </div>
                                 </div>
                             </div>

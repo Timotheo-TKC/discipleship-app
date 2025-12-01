@@ -58,8 +58,10 @@ class ClassController extends Controller
                             ->orWhere('end_date', '>=', now());
                       });
             } elseif ($status === 'completed') {
-                $query->where('is_active', false)
+                $query->where(function ($q) {
+                    $q->where('is_active', false)
                       ->orWhere('end_date', '<', now());
+                });
             }
         }
 
