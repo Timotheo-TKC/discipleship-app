@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Booking;
 use App\Models\ClassSession;
 use App\Models\DiscipleshipClass;
 use App\Models\Member;
@@ -251,9 +252,9 @@ class DashboardController extends Controller
         if ($user->isMentor()) {
             return [
                 'myClasses' => DiscipleshipClass::byMentor($user->id)->count(),
-                'mySessions' => ClassSession::whereHas('class', function ($query) use ($user) {
-                    $query->where('mentor_id', $user->id);
-                })->count(),
+                'mySessions' => Booking::where('mentor_id', $user->id)
+                    ->whereIn('status', ['confirmed', 'completed'])
+                    ->count(),
                 'myMembers' => Member::whereHas('mentorships', function ($query) use ($user) {
                     $query->where('mentor_id', $user->id);
                 })->distinct()->count(),
