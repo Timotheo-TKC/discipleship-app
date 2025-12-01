@@ -72,6 +72,33 @@
                             @enderror
                         </div>
 
+                        <!-- Duration (in weeks) -->
+                        <div>
+                            <label for="duration_weeks" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Duration (in weeks)
+                            </label>
+                            <input type="number" name="duration_weeks" id="duration_weeks" min="1" max="104" value="{{ old('duration_weeks') }}"
+                                   placeholder="e.g., 12 weeks"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Optional: Enter duration in weeks. End date will be calculated automatically.</p>
+                            @error('duration_weeks')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- End Date -->
+                        <div>
+                            <label for="end_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                End Date
+                            </label>
+                            <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Optional: Leave blank if using duration, or set a specific end date.</p>
+                            @error('end_date')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <!-- Meeting Frequency -->
                         <div>
                             <label for="meeting_frequency" class="block text-sm font-medium text-gray-700 dark:text-gray-300">

@@ -121,6 +121,15 @@ class MentorshipController extends Controller
             $validated['mentor_id'] = $user->id;
         }
 
+        // Calculate end_date from duration_weeks if provided and end_date is not set
+        if (isset($validated['duration_weeks']) && $validated['duration_weeks'] > 0 && empty($validated['end_date'])) {
+            $startDate = \Carbon\Carbon::parse($validated['start_date']);
+            $validated['end_date'] = $startDate->addWeeks($validated['duration_weeks'])->format('Y-m-d');
+        }
+
+        // Remove duration_weeks from validated data as it's not a database field
+        unset($validated['duration_weeks']);
+
         $mentorship = Mentorship::create($validated);
 
         return redirect()
@@ -175,7 +184,24 @@ class MentorshipController extends Controller
             abort(403, 'Access denied. Pastors can only view mentorships.');
         }
 
-        $mentorship->update($request->validated());
+        $user = auth()->user();
+        $validated = $request->validated();
+
+        // For mentors: only allow updating their own mentorships
+        if ($user->isMentor() && $mentorship->mentor_id !== $user->id) {
+            abort(403, 'Access denied. You can only update your own mentorships.');
+        }
+
+        // Calculate end_date from duration_weeks if provided and end_date is not set
+        if (isset($validated['duration_weeks']) && $validated['duration_weeks'] > 0 && empty($validated['end_date'])) {
+            $startDate = \Carbon\Carbon::parse($validated['start_date']);
+            $validated['end_date'] = $startDate->addWeeks($validated['duration_weeks'])->format('Y-m-d');
+        }
+
+        // Remove duration_weeks from validated data as it's not a database field
+        unset($validated['duration_weeks']);
+
+        $mentorship->update($validated);
 
         return redirect()
             ->route('mentorships.show', $mentorship)

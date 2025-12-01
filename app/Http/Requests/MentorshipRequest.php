@@ -48,6 +48,7 @@ class MentorshipRequest extends FormRequest
             ],
             'mentor_id' => $mentorIdRules,
             'start_date' => ['required', 'date', 'before_or_equal:today'],
+            'duration_weeks' => ['nullable', 'integer', 'min:1', 'max:104'],
             'end_date' => ['nullable', 'date', 'after:start_date'],
             'status' => ['required', 'in:active,completed,paused'],
             'notes' => ['nullable', 'string', 'max:2000'],
